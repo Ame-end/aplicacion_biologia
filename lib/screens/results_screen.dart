@@ -1,107 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key});
+  final Map<String, int> categoryResults;
+
+  static const Map<String, IconData> categoryIcons = {
+    'Avistamientos': Icons.remove_red_eye,
+    'Comercio': Icons.shopping_cart,
+    'Comportamiento': Icons.psychology,
+    'Conocimientos': Icons.school,
+    'Conservacion': Icons.eco,
+    'Contaminacion': Icons.water_drop,
+    'Cultural': Icons.architecture,
+    'Deforestacion': Icons.park,
+    'Peligro': Icons.warning,
+    'Remedios': Icons.medical_services,
+  };
+
+  const ResultsScreen({super.key, required this.categoryResults});
 
   @override
   Widget build(BuildContext context) {
-    final data = [
-      _CategoryResult('Contaminación', 20),
-      _CategoryResult('Deforestación', 15),
-      _CategoryResult('Avistamientos', 10),
-      _CategoryResult('Comportamientos', 5),
-      _CategoryResult('Conocimientos', 16),
-      _CategoryResult('Percepción', 8),
-      _CategoryResult('Conservación', 12),
-      _CategoryResult('Comercio', 7),
-    ];
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Resultados')),
+      appBar: AppBar(title: const Text('Resultados'), centerTitle: true),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(height: 20),
             Expanded(
-              child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.center,
-                  barTouchData: BarTouchData(enabled: true),
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, _) {
-                          final index = value.toInt();
-                          if (index >= 0 && index < data.length) {
-                            return Text(
-                              data[index].category,
-                              style: const TextStyle(fontSize: 10),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                        reservedSize: 100,
-                      ),
+              child: ListView.separated(
+                itemCount: categoryResults.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final entry = categoryResults.entries.elementAt(index);
+                  return Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, _) => Text('${value.toInt()}'),
-                      ),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  gridData: FlGridData(show: true),
-                  borderData: FlBorderData(show: false),
-                  barGroups: data.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final result = entry.value;
-                    return BarChartGroupData(
-                      x: index,
-                      barRods: [
-                        BarChartRodData(
-                          toY: result.value.toDouble(),
-                          color: Colors.blue,
-                          width: 20,
-                          borderRadius: BorderRadius.circular(4),
-                          backDrawRodData: BackgroundBarChartRodData(
-                            show: true,
-                            toY: 25,
-                            color: Colors.grey.shade200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ListTile(
+                        leading: Icon(
+                          categoryIcons[entry.key] ?? Icons.category,
+                          color: Theme.of(context).primaryColor,
+                          size: 28,
+                        ),
+                        title: Text(
+                          entry.key,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
                           ),
                         ),
-                      ],
-                      showingTooltipIndicators: [0],
-                    );
-                  }).toList(),
-                ),
+                        trailing: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.green[50],
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            entry.value.toString(),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'GRACIAS POR REALIZAR NUESTRA ENCUESTA\n\n'
-              'RECUERDA, TUS RESULTADOS NO SON BUENOS O MALOS, SOLO QUEREMOS CONOCER TU OPINIÓN ACERCA DEL TEMA.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Funcionalidad de PDF deshabilitada.'),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.picture_as_pdf),
+                label: const Text('Generar PDF'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
-
-class _CategoryResult {
-  final String category;
-  final int value;
-
-  _CategoryResult(this.category, this.value);
 }

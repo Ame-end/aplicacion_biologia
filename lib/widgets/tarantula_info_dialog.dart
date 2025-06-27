@@ -26,7 +26,7 @@ class TarantulaInfoDialog extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             const Text(
-              'Trabecir activado el 4 cm, hablando de fuentes maduros las maneras entre 24-25 cm y los farrones 48 cm. Es como pasar a la mía bajo la cama en nuestro centro o negro, ya pues no nos conectamos de expresar altura. Pueden mirar nuevos, pero más precisos lo que es más más grande y de desarrollo siglos.',
+              'Es una tarántula de tamaño mediano, los machos miden 34–36 mm y las hembras 48 mm. La cuarta pata es la más larga. Su color es marrón oscuro a negro, sin pelos rojos característicos de especies afines. Produce menos huevos, pero más grandes, lo que da crías más grandes y de desarrollo rápido.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, color: Color(0xFF212121)),
             ),

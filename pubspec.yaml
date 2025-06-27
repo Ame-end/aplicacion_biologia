@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   fl_chart: ^1.0.0
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  # syncfusion_flutter_charts: ^30.1.37
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -75,6 +77,8 @@ flutter:
     - Assets/Images/cultural.jpg
     - Assets/Images/conservacion.png
     - Assets/Images/comercio.png
+    - Assets/Images/unsijLogo.png
+    - Assets/fonts/Roboto-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

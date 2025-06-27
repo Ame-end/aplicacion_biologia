@@ -23,7 +23,9 @@ class Routes {
       case comments:
         return MaterialPageRoute(builder: (_) => const CommentsScreen());
       case results:
-        return MaterialPageRoute(builder: (_) => const ResultsScreen());
+        return MaterialPageRoute(
+          builder: (_) => const ResultsScreen(categoryResults: {}),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

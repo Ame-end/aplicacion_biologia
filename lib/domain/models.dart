@@ -26,13 +26,13 @@ class Question {
   final String text;
   final String category;
   final String? imagePath;
-  int? selectedValue; // <-- Agrega este campo mutable
+  int? selectedValue;
 
   Question({
     required this.text,
     required this.category,
     this.imagePath,
-    this.selectedValue, // <-- Permite inicializar si lo necesitas
+    this.selectedValue,
   });
 }
 

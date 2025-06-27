@@ -1,6 +1,8 @@
+import 'package:aplicacion_biologia/screens/results_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/question_card.dart';
 import '../domain/list_questions.dart';
+import '../screens/comments_screen.dart';
 import '../domain/models.dart';
 
 class QuestionsScreen extends StatefulWidget {
@@ -92,6 +94,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 imagePath: category.imagePath,
                 currentValue: question.selectedValue,
                 onChanged: _saveAnswer,
+                questionNumber: currentQuestionIndex + 1,
               ),
             ),
             const SizedBox(height: 20),
@@ -115,7 +118,47 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   ),
                   onPressed: question.selectedValue == null
                       ? null
-                      : _nextQuestion,
+                      : () {
+                          final isLastCategory =
+                              currentCategoryIndex == categories.length - 1;
+                          final isLastQuestion =
+                              currentQuestionIndex ==
+                              category.questions.length - 1;
+
+                          if (isLastCategory && isLastQuestion) {
+                            // Primero navega a CommentsScreen y luego a ResultsScreen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommentsScreen(),
+                              ),
+                            ).then((_) {
+                              // Esta parte se ejecuta cuando se regresa de CommentsScreen
+                              // Calcular los resultados por categoría antes de navegar a ResultsScreen
+                              final Map<String, int> categoryTotals = {
+                                for (var cat in categories)
+                                  cat.name: cat.questions
+                                      .where((q) => q.selectedValue != null)
+                                      .fold<int>(
+                                        0,
+                                        (sum, q) =>
+                                            sum + (q.selectedValue ?? 0),
+                                      ),
+                              };
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultsScreen(
+                                    categoryResults: categoryTotals,
+                                  ),
+                                ),
+                              );
+                            });
+                          } else {
+                            _nextQuestion();
+                          }
+                        },
                   child: Text(
                     currentCategoryIndex == categories.length - 1 &&
                             currentQuestionIndex ==

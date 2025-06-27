@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData light() {
@@ -14,6 +15,7 @@ class AppTheme {
         backgroundColor: Colors.grey[800],
         foregroundColor: Colors.white,
       ),
+      textTheme: GoogleFonts.onestTextTheme(), // <--- aquí
     );
   }
 
@@ -30,6 +32,9 @@ class AppTheme {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
+      textTheme: GoogleFonts.onestTextTheme(
+        ThemeData.dark().textTheme,
+      ), // <--- aquí
     );
   }
 }

@@ -71,6 +71,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor ingresa tu nombre';
                           }
+                          if (value.length < 3) {
+                            return 'El nombre debe tener al menos 3 caracteres';
+                          }
+                          if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                            return 'El nombre solo puede contener letras y espacios';
+                          }
+                          if (value.length > 50) {
+                            return 'El nombre no puede exceder los 50 caracteres';
+                          }
+                          if (value.contains(RegExp(r'\d'))) {
+                            return 'El nombre no puede contener números';
+                          }
+
                           return null;
                         },
                         onSaved: (value) => _userData.name = value,
@@ -97,6 +110,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Por favor ingresa tu localidad';
+                          }
+                          if (value.length < 3) {
+                            return 'La localidad debe tener al menos 3 caracteres';
+                          }
+
+                          if (value.length > 50) {
+                            return 'La localidad no puede exceder los 50 caracteres';
+                          }
+                          if (value.contains(RegExp(r'\d'))) {
+                            return 'La localidad no puede contener números';
                           }
                           return null;
                         },
@@ -178,6 +201,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor ingresa tu edad';
                           }
+                          if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            return 'La edad debe ser un número entero';
+                          }
+                          if ((int.tryParse(value) ?? 0) < 15 ||
+                              (int.tryParse(value) ?? 0) > 80) {
+                            return 'La edad debe estar entre 0 y 120';
+                          }
+                          if (value.length > 3) {
+                            return 'La edad no puede exceder los 3 dígitos';
+                          }
+                          if (value.contains(RegExp(r'\D'))) {
+                            return 'La edad no puede contener caracteres no numéricos';
+                          }
+                          if (value.contains(RegExp(r'\s'))) {
+                            return 'La edad no puede contener espacios';
+                          }
+                          if (value.contains(RegExp(r'^[a-zA-Z]+$'))) {
+                            return 'La edad no puede contener letras';
+                          }
                           return null;
                         },
                         onSaved: (value) => _userData.age = value,
@@ -202,6 +244,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         style: const TextStyle(color: Color(0xFF212121)),
                         onSaved: (value) => _userData.ethnicGroup = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor ingresa tu Grupo Étnico';
+                          }
+                          if (value.length < 3) {
+                            return 'El nombre debe tener al menos 3 caracteres';
+                          }
+                          if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                            return 'El nombre solo puede contener letras y espacios';
+                          }
+
+                          if (value.contains(RegExp(r'\d'))) {
+                            return 'El nombre no puede contener números';
+                          }
+
+                          return null;
+                        },
                       ),
                     ],
                   ),
@@ -295,6 +354,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           value: status,
                           groupValue: _userData.maritalStatus,
                           activeColor: const Color(0xFF2E7D32),
+
                           onChanged: (value) {
                             setState(() {
                               _userData.maritalStatus = value;
@@ -334,6 +394,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         style: const TextStyle(color: Color(0xFF212121)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor ingresa la cantidad';
+                          }
+                          if (value.length < 1) {
+                            return 'El nombre debe tener al menos 2 caracteres';
+                          }
+                          if (value.length > 50) {
+                            return 'El nombre no puede exceder los 50 caracteres';
+                          }
+                          if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            return 'Este campo solo debe contener números';
+                          }
+
+                          return null;
+                        },
                         onSaved: (value) => _userData.landOwnership = value,
                       ),
                       const SizedBox(height: 20),
@@ -356,6 +432,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         style: const TextStyle(color: Color(0xFF212121)),
                         onSaved: (value) => _userData.workSource = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor ingresa tu fuente de trabajo';
+                          }
+                          if (value.length > 10) {
+                            return 'El nombre debe tener al menos 3 caracteres';
+                          }
+                          if (value.length > 25) {
+                            return 'El nombre no puede exceder los 50 caracteres';
+                          }
+                          if (value.contains(RegExp(r'\d'))) {
+                            return 'El nombre no puede contener números';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
