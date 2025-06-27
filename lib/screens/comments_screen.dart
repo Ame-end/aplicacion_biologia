@@ -1,8 +1,12 @@
+import 'package:aplicacion_biologia/screens/results_screen.dart';
 import 'package:flutter/material.dart';
-import '../configurations/routes.dart';
+import '../domain/models.dart';
+import '../domain/list_questions.dart';
 
 class CommentsScreen extends StatefulWidget {
-  const CommentsScreen({super.key});
+  final List<SurveyCategory> categories;
+
+  const CommentsScreen({super.key, required this.categories});
 
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
@@ -44,7 +48,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Nos gustaría saber tu opinión respecto al tema ',
+                      'Nos gustaría saber tu opinión respecto al tema',
                       style: TextStyle(fontSize: 16, color: Color(0xFF212121)),
                       textAlign: TextAlign.center,
                     ),
@@ -85,7 +89,21 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 elevation: 5,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, Routes.results);
+                // Calcular resultados y navegar directamente a ResultsScreen
+                final Map<String, int> categoryTotals = {
+                  for (var cat in widget.categories)
+                    cat.name: cat.questions
+                        .where((q) => q.selectedValue != null)
+                        .fold<int>(0, (sum, q) => sum + (q.selectedValue ?? 0)),
+                };
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ResultsScreen(categoryResults: categoryTotals),
+                  ),
+                );
               },
               child: const Text(
                 'Ver Resultados',

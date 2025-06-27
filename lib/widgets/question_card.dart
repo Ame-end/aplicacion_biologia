@@ -7,7 +7,7 @@ class QuestionCard extends StatelessWidget {
   final int? currentValue;
   final ValueChanged<int> onChanged;
   final Function(String category, int value)? onOptionSelected;
-  final int questionNumber; // Nuevo parámetro para el número de pregunta
+  final int questionNumber;
 
   const QuestionCard({
     super.key,
@@ -17,7 +17,7 @@ class QuestionCard extends StatelessWidget {
     required this.currentValue,
     required this.onChanged,
     this.onOptionSelected,
-    required this.questionNumber, // Añadido
+    required this.questionNumber,
   });
 
   // Método para obtener las opciones basadas en el número de pregunta
@@ -36,57 +36,49 @@ class QuestionCard extends StatelessWidget {
       case 6:
         return {1: 'Mucho', 2: 'Poco', 3: 'Nada'};
       case 7: // ¿Has visto a la tarántula de terciopelo negro?
-        return {1: 'No', 2: 'No estoy seguro', 3: 'Sí'};
+        return {1: 'No', 2: 'No estoy\n seguro', 3: 'Sí'};
       case 8: // ¿Dónde la has visto?
-        return {
-          1: 'Dentro o cerca de mi casa',
-          2: 'Cultivos (maíz, agave, otro)',
-          3: 'En el bosque (monte, cerro)',
-        };
+        return {1: 'Cerca de\n mi casa', 2: 'Cultivos ', 3: 'En el bosque'};
       case 9: // ¿Dónde la has visto?
-        return {1: 'nunca', 2: 'una vez al año', 3: 'mas de una vez al año'};
+        return {1: 'nunca', 2: '1 vez al año', 3: 'mas de 1 vez'};
       case 10: // ¿Qué haces cuando te la encuentras?
-        return {
-          1: 'La mato',
-          2: 'No hago nada',
-          3: 'La dejo donde la encontré o la llevo al cerro',
-        };
+        return {1: 'La mato', 2: 'No hago nada', 3: 'La dejo ahí'};
       case 11: // ¿Te afecta encontrarla en tus cultivos?
         return {
-          1: 'sí, ya no trabajo y me voy a casa',
-          2: 'trabajo, pero no con normalidad',
-          3: 'no me afecta en nada',
+          1: 'sí, ya \nno trabajo ',
+          2: 'trabajo,\n pero no\n con normalidad',
+          3: 'no me afecta\n en nada',
         };
       case 12: // ¿Qué haces (tú o tu familia) si la encuentras en tu casa?
         return {
           1: 'la mato',
           2: 'no hago nada',
-          3: 'la dejo donde la encontré o la llevo al cerro',
+          3: 'la dejo \ndonde\n la encontré',
         };
       case 13: // ¿Conoces algún nombre en tu lengua materna para esta araña?
-        return {1: 'no', 2: 'no estoy seguro', 3: 'sí, ¿cuál?'};
+        return {1: 'no', 2: 'no estoy\n seguro', 3: 'sí, ¿cuál?'};
       case 14: // ¿Te dan miedo las tarántulas?
         return {1: 'mucho', 2: 'más o menos', 3: 'nada'};
       case 15: // ¿Crees que son venenosas para humanos?
-        return {1: 'sí', 2: 'no estoy seguro', 3: 'no'};
+        return {1: 'sí', 2: 'no estoy\n seguro', 3: 'no'};
       case 16: // ¿Crees que son venenosas para mascotas o ganado?
-        return {1: 'sí', 2: 'no estoy seguro', 3: 'no'};
+        return {1: 'sí', 2: 'no estoy\n seguro', 3: 'no'};
       case 17: // ¿Te ha picado, mordido o lastimado una tarántula?
-        return {1: 'sí', 2: 'no estoy seguro', 3: 'no'};
+        return {1: 'sí', 2: 'no estoy\n seguro', 3: 'no'};
       case 18: // ¿Qué has hecho cuando te ha mordido o picado?
         return {
-          1: 'tomo algún remedio casero',
-          2: 'nada, me recupero solo',
-          3: 'voy al médico',
+          1: 'tomo algún\n remedio casero',
+          2: 'nada, me \nrecupero solo',
+          3: 'voy al\n médico',
         };
       case 19: // ¿Sabes si las tarántulas tienen uso medicinal en la comunidad?
-        return {1: 'no', 2: 'no estoy seguro', 3: 'sí, ¿cuál?'};
+        return {1: 'no', 2: 'no estoy \nseguro', 3: 'sí, ¿cuál?'};
       case 20: // ¿Sabes si hay alguna representación cultural de la tarántula?
-        return {1: 'no', 2: 'no estoy seguro', 3: 'sí, ¿cuál?'};
+        return {1: 'no', 2: 'no estoy\n seguro', 3: 'sí, ¿cuál?'};
       case 21: // ¿Conoces proyectos de cuidado y preservación de la tarántula?
         return {1: 'no', 2: 'más o menos', 3: 'sí'};
       case 22: // ¿Conservar tarántulas puede generar ingresos económicos?
-        return {1: 'no', 2: 'no estoy seguro', 3: 'sí'};
+        return {1: 'no', 2: 'no estoy\n seguro', 3: 'sí'};
       case 23: // ¿Participarías en un proyecto de conservación sin pago?
         return {1: 'no', 2: 'tal vez', 3: 'sí'};
       case 24: // ¿Participarías en un proyecto de conservación con pago?
@@ -98,12 +90,12 @@ class QuestionCard extends StatelessWidget {
       case 27: // ¿Sabías que hay personas que tienen tarántulas como mascotas?
         return {1: 'no', 2: 'tal vez', 3: 'sí'};
       case 28: // ¿Has visto tarántulas en tiendas de mascotas?
-        return {1: 'no', 2: 'no estoy seguro', 3: 'sí'};
+        return {1: 'no', 2: 'no estoy\n seguro', 3: 'sí'};
       case 29: // ¿Dónde se ubica la tienda donde la has visto?
         return {
-          1: 'en la ciudad',
-          2: 'en la comunidad',
-          3: 'en internet u otro lugar',
+          1: 'en la\n ciudad',
+          2: 'en la\n comunidad',
+          3: 'en internet\n u otro lugar',
         };
       case 30: // ¿Conoces a alguien que venda tarántulas en la comunidad?
         return {1: 'no', 2: 'no estoy seguro', 3: 'sí'};
@@ -151,7 +143,7 @@ class QuestionCard extends StatelessWidget {
                 ],
               ),
             Text(
-              'Categoria $category', // Muestra la categoría
+              'Categoría: $category', // Muestra la categoría
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF8BC34A),

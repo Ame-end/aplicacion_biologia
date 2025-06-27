@@ -21,7 +21,9 @@ class Routes {
       case questions:
         return MaterialPageRoute(builder: (_) => const QuestionsScreen());
       case comments:
-        return MaterialPageRoute(builder: (_) => const CommentsScreen());
+        return MaterialPageRoute(
+          builder: (_) => const CommentsScreen(categories: []),
+        );
       case results:
         return MaterialPageRoute(
           builder: (_) => const ResultsScreen(categoryResults: {}),

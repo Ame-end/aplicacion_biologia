@@ -16,11 +16,18 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   late List<SurveyCategory> categories;
   int currentCategoryIndex = 0;
   int currentQuestionIndex = 0;
+  int totalQuestions = 0;
+  int currentGlobalQuestionIndex = 1; // Contador global de preguntas (1-34)
 
   @override
   void initState() {
     super.initState();
     categories = ListQuestions.getSurveyCategories();
+    // Calcular el total de preguntas
+    totalQuestions = categories.fold(
+      0,
+      (sum, category) => sum + category.questions.length,
+    );
   }
 
   Question get currentQuestion {
@@ -41,11 +48,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       if (currentQuestionIndex <
           categories[currentCategoryIndex].questions.length - 1) {
         currentQuestionIndex++;
+        currentGlobalQuestionIndex++;
       } else if (currentCategoryIndex < categories.length - 1) {
         currentCategoryIndex++;
         currentQuestionIndex = 0;
+        currentGlobalQuestionIndex++;
       } else {
-        // Navegar a pantalla de resultados
+        // Navegar a pantalla de comentarios
+        _navigateToComments();
       }
     });
   }
@@ -54,12 +64,24 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     setState(() {
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
+        currentGlobalQuestionIndex--;
       } else if (currentCategoryIndex > 0) {
         currentCategoryIndex--;
         currentQuestionIndex =
             categories[currentCategoryIndex].questions.length - 1;
+        currentGlobalQuestionIndex--;
       }
     });
+  }
+
+  void _navigateToComments() {
+    // Navegar directamente a CommentsScreen pasando las categorías
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommentsScreen(categories: categories),
+      ),
+    );
   }
 
   @override
@@ -79,7 +101,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         child: Column(
           children: [
             Text(
-              'Pregunta ${currentQuestionIndex + 1} de ${category.questions.length} ',
+              'Pregunta $currentGlobalQuestionIndex de $totalQuestions',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -94,7 +116,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 imagePath: category.imagePath,
                 currentValue: question.selectedValue,
                 onChanged: _saveAnswer,
-                questionNumber: currentQuestionIndex + 1,
+                questionNumber: currentGlobalQuestionIndex,
               ),
             ),
             const SizedBox(height: 20),
@@ -119,50 +141,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   onPressed: question.selectedValue == null
                       ? null
                       : () {
-                          final isLastCategory =
-                              currentCategoryIndex == categories.length - 1;
-                          final isLastQuestion =
-                              currentQuestionIndex ==
-                              category.questions.length - 1;
-
-                          if (isLastCategory && isLastQuestion) {
-                            // Primero navega a CommentsScreen y luego a ResultsScreen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CommentsScreen(),
-                              ),
-                            ).then((_) {
-                              // Esta parte se ejecuta cuando se regresa de CommentsScreen
-                              // Calcular los resultados por categoría antes de navegar a ResultsScreen
-                              final Map<String, int> categoryTotals = {
-                                for (var cat in categories)
-                                  cat.name: cat.questions
-                                      .where((q) => q.selectedValue != null)
-                                      .fold<int>(
-                                        0,
-                                        (sum, q) =>
-                                            sum + (q.selectedValue ?? 0),
-                                      ),
-                              };
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ResultsScreen(
-                                    categoryResults: categoryTotals,
-                                  ),
-                                ),
-                              );
-                            });
+                          if (currentGlobalQuestionIndex == totalQuestions) {
+                            _navigateToComments();
                           } else {
                             _nextQuestion();
                           }
                         },
                   child: Text(
-                    currentCategoryIndex == categories.length - 1 &&
-                            currentQuestionIndex ==
-                                category.questions.length - 1
+                    currentGlobalQuestionIndex == totalQuestions
                         ? 'Finalizar'
                         : 'Siguiente',
                   ),

@@ -4,16 +4,16 @@ class ResultsScreen extends StatelessWidget {
   final Map<String, int> categoryResults;
 
   static const Map<String, IconData> categoryIcons = {
-    'Avistamientos': Icons.remove_red_eye,
-    'Comercio': Icons.shopping_cart,
+    'Avistamientos': Icons.visibility,
+    'Comercio': Icons.storefront,
     'Comportamiento': Icons.psychology,
-    'Conocimientos': Icons.school,
-    'Conservacion': Icons.eco,
-    'Contaminacion': Icons.water_drop,
-    'Cultural': Icons.architecture,
-    'Deforestacion': Icons.park,
-    'Peligro': Icons.warning,
-    'Remedios': Icons.medical_services,
+    'Conocimientos': Icons.menu_book,
+    'Conservacion': Icons.nature,
+    'Contaminacion': Icons.smoke_free,
+    'Cultural': Icons.diversity_3,
+    'Deforestacion': Icons.forest,
+    'Peligro': Icons.report_problem,
+    'Remedios': Icons.healing,
   };
 
   const ResultsScreen({super.key, required this.categoryResults});
@@ -21,7 +21,13 @@ class ResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Resultados'), centerTitle: true),
+      backgroundColor: const Color(0xFFF1F8E9),
+      appBar: AppBar(
+        title: const Text('Resultados'),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF2E7D32),
+        elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,7 +48,7 @@ class ResultsScreen extends StatelessWidget {
                       child: ListTile(
                         leading: Icon(
                           categoryIcons[entry.key] ?? Icons.category,
-                          color: Theme.of(context).primaryColor,
+                          color: const Color(0xFF2E7D32),
                           size: 28,
                         ),
                         title: Text(
@@ -74,24 +80,24 @@ class ResultsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Funcionalidad de PDF deshabilitada.'),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.picture_as_pdf),
-                label: const Text('Generar PDF'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2E7D32),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 15,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              onPressed: () {
+                // Navegar de vuelta al inicio limpiando toda la pila
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: const Text(
+                'Volver al Inicio',
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ],
